@@ -16,7 +16,7 @@ def get_topic():
     
     for attempt in range(3):
         try:
-            res = client.models.generate_content(model='gemini-2.0-flash', contents=prompt)
+            res = client.models.generate_content(model='gemini-3.8-flash', contents=prompt)
             text = res.text.replace('json','').replace('','').strip()
             data = json.loads(text)
             return data
