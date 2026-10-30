@@ -32,7 +32,7 @@ Return ONLY valid JSON, no markdown:
 {"title": "...", "thumbnail_text": "2-3 WORDS", "description": "SEO 2 lines with keywords future tech invention", "keywords": ["future tech","invention","AI","USA"], "hook": "Shocking hook line"}
 """
     try:
-        res = client.models.generate_content(model='gemini-2.0-flash', contents=prompt)
+        res = client.models.generate_content(model='gemini-3.8-flash', contents=prompt)
         text = res.text.replace('```json','').replace('```','').strip()
         data = json.loads(text)
         data['thumbnail_text'] = data.get('thumbnail_text','FUTURE?')[:20].upper()
