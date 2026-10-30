@@ -1,33 +1,18 @@
-
-import os
+import os, time
 from google import genai
 
 def write_script(topic_data):
     api_key = os.getenv("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
-    prompt = f'''
-You are a TOP US YouTube scriptwriter (like MrBeast + Wendover + Marques Brownlee) for channel VAYNZOX.
-
-MAIN NICHE: Future Technologies & Inventions
-Title: {topic_data['title']}
-Hook: {topic_data['hook']}
-
-Write a 1000-1100 word VIRAL script that feels like a professional documentary.
-
-Structure:
-1. HOOK (0-25 sec): Start with a mind-blowing question. NO "Welcome". Example: "What if I told you the phone in your hand will be worthless in 2 years?" Add [PAUSE] [EMPHASIS]
-2. THE PROBLEM (25sec-2min): Why current tech is failing? Why we need this invention?
-3. THE INVENTION (2-8min): Explain the future tech invention like I'm 15 but smart. Use: How it works, Who invented, Numbers, "Here's the insane part", Compare to sci-fi movies. If geopolitics angle, add USA vs China race.
-4. THE TWIST (8-10min): What no one is telling you? Dark side? Secret US/China plan? Will it replace jobs?
-5. FUTURE & CTA (10-12min): When will you get it? 2026-2028 timeline? What happens if you ignore? Subscribe for future.
-
-Rules:
-- American confident native English
-- Short sentences, conversational, powerful
-- Each sentence on new line (for captions)
-- Add [PAUSE] and [EMPHASIS] for voice
-- No fluff, no "As an AI"
-- Make it so engaging that viewer watches till end
-'''
-    res = client.models.generate_content(model='gemini-3.8-flash', contents=prompt)
-    return res.text
+    prompt = f'''Write a 1000 word viral YouTube script for VAYNZOX. Future Tech niche. Title: {topic_data['title']} Hook: {topic_data['hook']} Audience: US 18-45. Structure: 1. HOOK (0-25s) shocking question 2. CONTEXT (25s-2min) 3. DEEP DIVE (2-8min) invention explained 4. TWIST (8-10min) USA vs China 5. FUTURE & CTA. Rules: American English, short sentences, [PAUSE] [EMPHASIS], each sentence new line.'''
+    
+    for attempt in range(3):
+        try:
+            res = client.models.generate_content(model='gemini-2.0-flash', contents=prompt)
+            return res.text
+        except Exception as e:
+            print(f"Script attempt {attempt+1} failed: {e}")
+            time.sleep(5)
+            if attempt == 2:
+                return f"{topic_data['hook']} [PAUSE] Today we explore {topic_data['title']}. [PAUSE] This invention will change everything. [PAUSE] Let's dive in. [PAUSE] {topic_data['description']} [PAUSE] The future is here. Subscribe to VAYNZOX for more future tech."
+            continue
