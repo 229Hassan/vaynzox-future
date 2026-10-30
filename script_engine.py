@@ -29,5 +29,5 @@ Rules:
 - No fluff, no "As an AI"
 - Make it so engaging that viewer watches till end
 '''
-    res = client.models.generate_content(model='gemini-2.5-flash', contents=prompt)
+    res = client.models.generate_content(model='gemini-2.0-flash', contents=prompt)
     return res.text
