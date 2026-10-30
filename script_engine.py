@@ -8,7 +8,7 @@ def write_script(topic_data):
     
     for attempt in range(3):
         try:
-            res = client.models.generate_content(model='gemini-2.0-flash', contents=prompt)
+            res = client.models.generate_content(model='gemini-3.8-flash', contents=prompt)
             return res.text
         except Exception as e:
             print(f"Script attempt {attempt+1} failed: {e}")
